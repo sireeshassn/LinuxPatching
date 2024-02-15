@@ -1,16 +1,16 @@
 ---
 - name: Install and configure HAProxy
-  hosts: haproxy_servers
+  hosts: all
   become: yes
 
   tasks:
-    - name: Install HAProxy
+    - name: Installion of ha proxy HAProxy
       apt:
         name: haproxy
         state: present
       become: yes
 
-    - name: Configure HAProxy
+    - name: Configure HAProxy using the jinja2 template where haproxty.cfg.j2 will be act like source file and /etc/haproxy/haproxy.cfg will be detaination
       template:
         src: haproxy.cfg.j2
         dest: /etc/haproxy/haproxy.cfg
@@ -18,7 +18,7 @@
         - restart haproxy
 
   handlers:
-    - name: restart haproxy
+    - name: restart haproxy after the service installation and configuration changes 
       service:
         name: haproxy
         state: restarted
