@@ -2,7 +2,7 @@
 #### Ansible Playbook to perform Kernel Patching on RHEL/CentOS and Ubuntu/Debian Servers ####
 
 - hosts: all
-  become: root
+  become: true
   #serial: 4
 
   tasks:
