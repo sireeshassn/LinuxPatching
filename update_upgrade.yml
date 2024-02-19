@@ -8,7 +8,8 @@
       apt:
         update_cache: yes
         force_apt_get: yes
-        cache_valid_time: 30 // Actual valid time is 3600 sec
+        cache_valid_time: 30
+        // updated the cache_valid time 3600 sec to 30 Sec
 
     - name: Upgrade all packages
       apt:
