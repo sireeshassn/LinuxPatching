@@ -1,6 +1,6 @@
 ---
-- name: Updating all packages on Ubuntu / Debian Linux Servers
-  hosts: webservers,dbservers
+- name: Updating all packages on Ubuntu and Debian Linux Servers
+  hosts: all
   become: true
   become_user: root
   tasks:
@@ -8,7 +8,7 @@
       apt:
         update_cache: yes
         force_apt_get: yes
-        cache_valid_time: 3600
+        cache_valid_time: 30 // Actual valid time is 3600 sec
 
     - name: Upgrade all packages
       apt:
@@ -29,7 +29,7 @@
         test_command: uptime
       when: reboot_required_file_existence.stat.exists
 
-    - name: check if all the systems responding to ssh
+    - name: check if all the systems responding to ssh after the reboot 
       local_action:
         module: wait_for
           host={{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}
