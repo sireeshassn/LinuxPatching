@@ -1,0 +1,12 @@
+---
+hosts: all
+become: true
+- name: Copy the public key from ansible awx server 
+  src: /root/.ssh/
+   command: cat /root/.ssh/id_rsa.pub >> touch publickey
+  Dest: publickey
+- name : paste the public key in authorized_keys in destination servers
+  ansible.builtin.fetch:
+    src: /root/.ssh/id_rsa.pub
+    dest: /root/.ssh/authorized_keys -{{ inventory_hostname }}
+    flat: yes
