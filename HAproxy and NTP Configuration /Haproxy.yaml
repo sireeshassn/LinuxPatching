@@ -20,7 +20,7 @@
       become: yes
 
   handlers:
-    - name: handlers to restart  HAProxy after adding the configuration changes
+    - name: Restart HAProxy
       service:
         name: haproxy
         state: restarted
