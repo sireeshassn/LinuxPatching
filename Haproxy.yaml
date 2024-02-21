@@ -1,6 +1,6 @@
 ---
-- name: Install and configure HAProxy
-  hosts: all
+- name: Install and configure HAProxy on ansible 
+  hosts: 192.168.237.144
   become: yes
 
   tasks:
@@ -10,15 +10,4 @@
         state: present
       become: yes
 
-    - name: Configure HAProxy using the jinja2 template where haproxty.cfg.j2 will be act like source file and /etc/haproxy/haproxy.cfg will be detaination
-      template:
-        src: haproxy.cfg.j2
-        dest: /etc/haproxy/haproxy.cfg
-      notify:
-        - restart haproxy
-
-  handlers:
-    - name: restart haproxy after the service installation and configuration changes 
-      service:
-        name: haproxy
-        state: restarted
+   
