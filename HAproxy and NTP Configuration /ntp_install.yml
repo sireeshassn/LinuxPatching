@@ -1,0 +1,26 @@
+---
+- name: Install NTP and Configure on ubuntu servers
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Update apt repository
+      apt:
+        update_cache: yes
+
+    - name: Install NTP and start the service 
+      apt:
+        name: ntp
+        state: present
+
+    - name: Configure NTP servers
+      template:
+        src:  templates/ntp.conf.j2
+        dest: /etc/ntp.conf
+      notify: Restart NTP
+
+  handlers:
+    - name: Restart NTP
+      service:
+        name: ntp
+        state: restarted

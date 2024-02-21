@@ -1,0 +1,26 @@
+- name: Install HAProxy on ubuntu servers
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Update apt cache repository 
+      apt:
+        update_cache: yes
+
+    - name: Install HAProxy on servers and start the service 
+      apt:
+        name: haproxy
+        state: present
+
+    - name: Copy HAProxy configuration file from haproxy.conf.j2 to /etc/haproxy/haproxy.cfg
+      copy:
+        src: haproxy.conf.j2
+        dest: /etc/haproxy/haproxy.cfg
+      notify: Restart HAProxy
+      become: yes
+
+  handlers:
+    - name: handlers to restart  HAProxy after adding the configuration changes
+      service:
+        name: haproxy
+        state: restarted
