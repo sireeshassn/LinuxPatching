@@ -14,7 +14,7 @@
 
     - name: Copy HAProxy configuration file from haproxy.conf.j2 to /etc/haproxy/haproxy.cfg
       copy:
-        src: files/haproxy.conf.j2
+        src: haproxy.conf.j2
         dest: /etc/haproxy/haproxy.cfg
       notify: Restart HAProxy
       become: yes
