@@ -2,7 +2,13 @@
 - name: Install NTP and Configure on ubuntu servers
   hosts: all
   become: yes
-
+  vars: 
+   ntp_server1: ntp.workernode1.com
+   ntp_server2: ntp.workernode2.com
+  tasks:
+   - name: remove chrony on NTP servers its recommended to remove chrony on NTP servers to avaiod issues
+     apt: chrony
+     state: absent
   tasks:
     - name: Update apt repository
       apt:
@@ -17,6 +23,10 @@
       template:
         src:  templates/ntp.conf.j2
         dest: /etc/ntp.conf
+        owner: root
+        group: root
+        mode: 0644
+        backup: yes
       notify: Restart NTP
 
   handlers:
@@ -24,3 +34,4 @@
       service:
         name: ntp
         state: restarted
+        enabled: yes

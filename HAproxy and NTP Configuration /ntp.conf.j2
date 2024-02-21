@@ -1,0 +1,18 @@
+# /etc/ntp.conf
+# this NTP config file is managed using ansible 
+# DO NOT CHANGE MANUALLY 
+
+# Specify NTP servers
+server {{ ntp_server1 }} iburst
+server {{ ntp_server1 }} iburst
+
+# Restrict access
+restrict default kod nomodify notrap nopeer noquery
+restrict -6 default kod nomodify notrap nopeer noquery
+
+# Local clock
+restrict 127.0.0.1
+restrict -6 ::1
+ 
+keys /etc/ntp/keys
+disable monitor
