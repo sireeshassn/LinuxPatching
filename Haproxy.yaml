@@ -1,6 +1,6 @@
 ---
 - name: Install and configure HAProxy on ansible 
-  hosts: 192.168.237.144
+  hosts: all
   become: yes
 
   tasks:
