@@ -2,8 +2,6 @@
 - name: Install and configure HAProxy on ansible 
   hosts: all
   become: yes
-  become_user: owlabtest
-
   tasks:
     - name: Installion of ha proxy HAProxy
       apt:
