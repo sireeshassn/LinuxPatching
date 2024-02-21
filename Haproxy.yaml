@@ -7,7 +7,7 @@
     - name: Installion of ha proxy HAProxy
       apt:
         name: haproxy
-        state: present
+        state: absent
       become: yes
 
    
