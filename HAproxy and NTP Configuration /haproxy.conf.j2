@@ -19,12 +19,12 @@ defaults
 
 frontend http_front
     ## bind *:8080
-    default_backend http_back
+    default_backend backend_server
     bind 192.168.237.145:8080
    stats uri /haproxy?stats
    ## default_backend web-servers
 
-backend http_back
+backend backend_server
     balance roundrobin
     server app_server1 192.168.237.147:8080 check
    
