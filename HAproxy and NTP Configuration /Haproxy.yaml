@@ -1,8 +1,8 @@
 - name: Install HAProxy on ubuntu servers
   hosts: all
   become: yes
-
-  tasks:
+  
+    tasks:
     - name: Update apt cache repository 
       apt:
         update_cache: yes
@@ -24,3 +24,19 @@
       service:
         name: haproxy
         state: restarted
+        enable: yes 
+  - name: Install Apache on backend_server if not installed 
+    hosts: backend_server
+    beocme: yes
+
+      tasks:
+      - name: check if apache2 installed in backend servers
+        stat: 
+          path: /usr/sbin/apache2
+        register: apache_check
+
+      - name: Install Apachec if not installed 
+        apt:
+          name: apache2 
+          state: present
+        when: not apache_check.stat.exists     
