@@ -18,6 +18,19 @@
         dest: /etc/haproxy/haproxy.cfg
       notify: Restart HAProxy
       become: yes
+    
+    - name: Install Apachec if not installed 
+      apt:
+        name: apache2 
+        state: present
+      when: "'backend_server' in group_names"   
+
+    - name: Copy Apache configurtaion file from apache.conf.j2 to /etc/apache2/apache2.conf 
+      copy: 
+        src: apache.conf.j2
+        dest: /etc/apache2/apache2.conf
+      notify: Restart Apache
+      when: "'backend_server' in group_names"
 
   handlers:
     - name: Restart HAProxy
@@ -26,18 +39,10 @@
         state: restarted
         enabled: yes
 
-- name: Install Apache on backend_server if not installed 
-  hosts: backend_server
-  become: yes
-
-  tasks:
-    - name: check if apache2 installed in backend servers
-      stat: 
-        path: /usr/sbin/apache2
-      register: apache_check
-
-    - name: Install Apachec if not installed 
-      apt:
-        name: apache2 
-        state: present
-      when: not apache_check.stat.exists     
+    - name: Restart Apache
+      service:
+        name: apache2
+        state: restarted
+        enabled: yes
+   
+  
