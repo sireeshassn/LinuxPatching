@@ -28,7 +28,7 @@
 
 - name: Install Apache on backend_server if not installed 
   hosts: backend_server
-  beocme: yes
+  become: yes
 
   tasks:
     - name: check if apache2 installed in backend servers
