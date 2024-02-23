@@ -24,7 +24,7 @@
       service:
         name: haproxy
         state: restarted
-        enable: yes
+        enabled: yes
 
 - name: Install Apache on backend_server if not installed 
   hosts: backend_server
