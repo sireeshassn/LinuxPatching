@@ -1,5 +1,5 @@
 - name: Install HAProxy on ubuntu servers
-  hosts: all
+  hosts: haproxy inventory,backend_server
   become: yes
   
   tasks:
@@ -18,12 +18,20 @@
         dest: /etc/haproxy/haproxy.cfg
       notify: Restart HAProxy
       become: yes
+
+    - name: check if apache is installed or not
+      stat: 
+        path: /usr/sbin/apache2
+      register: apache_installed
+      become: yes
     
     - name: Install Apachec if not installed 
       apt:
         name: apache2 
         state: present
-      when: "'backend_server' in group_names"   
+      when: "'backend_server' in group_names and apache_insttalled.stat.exists == false"
+      delegate_to: "{{ item }}"
+      with_items: "{{ groups['backend_server'] }}"   
 
     - name: Copy Apache configurtaion file from apache.conf.j2 to /etc/apache2/apache2.conf 
       copy: 
