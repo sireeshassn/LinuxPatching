@@ -1,5 +1,5 @@
 - name: Install HAProxy on ubuntu servers
-  hosts: all
+  hosts: haproxy_inventory, backend_server
   become: yes
   
   tasks:
