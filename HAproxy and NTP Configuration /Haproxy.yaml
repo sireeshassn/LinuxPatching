@@ -52,5 +52,9 @@
         name: apache2
         state: restarted
         enabled: yes
-   
-  
+
+    - name: Debug Inventory
+      debug:
+        msg: "Group names: {{ groups.keys() }}"  
+
+
