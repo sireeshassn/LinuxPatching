@@ -1,5 +1,5 @@
 - name: Install HAProxy on ubuntu servers
-  hosts: haproxy_inventory
+  hosts: haproxy_inventory, backend_server
   become: yes
   
   tasks:
@@ -18,6 +18,14 @@
         dest: /etc/haproxy/haproxy.cfg
       notify: Restart HAProxy
       become: yes
+
+  handlers: 
+     - name: Restart HAProxy
+      service:
+        name: haproxy
+        state: restarted
+        enabled: yes
+
 - name: check apache is installed  on backend server
   hosts: backend_server
   become: yes
@@ -42,12 +50,6 @@
       when: "'backend_server' in group_names"
 
   handlers:
-    - name: Restart HAProxy
-      service:
-        name: haproxy
-        state: restarted
-        enabled: yes
-
     - name: Restart Apache
       service:
         name: apache2
