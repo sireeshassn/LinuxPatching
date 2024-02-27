@@ -1,0 +1,67 @@
+---
+- name: Configure Proxy, Install NTP, and Point to NTP Server
+  hosts: workernode1,workernode2
+  become: false
+
+  vars:
+    proxy_env:
+      http_proxy: "http://:your_proxy_port"
+      https_proxy: "http://your_proxy_server:your_proxy_port"
+      no_proxy: "localhost,127.0.0.1"
+
+    ntp_server: "your_ntp_server"
+
+  tasks:
+    - name: Configure Proxy Settings
+      block:
+        - name: Set Proxy Environment Variables
+          lineinfile:
+            dest: /etc/environment
+            line: "{{ item.key }}={{ item.value }}"
+          with_dict: "{{ proxy_env }}"
+          notify: Load Proxy Settings
+
+        - name: Load Proxy Settings
+          command: "source /etc/environment"
+          ignore_errors: yes
+          changed_when: false
+      tags:
+        - proxy
+
+    - name: Install NTP Package
+      apt:
+        name: ntp
+        state: present
+      when: ansible_os_family == 'Debian'
+      tags:
+        - ntp
+
+    - name: Install NTP Package
+      yum:
+        name: ntp
+        state: present
+      when: ansible_os_family == 'RedHat'
+      tags:
+        - ntp
+
+    - name: Configure NTP
+      template:
+        src: ntp.conf.j2
+        dest: /etc/ntp.conf
+      notify: Restart NTP Service
+      tags:
+        - ntp
+
+    - name: Start NTP Service
+      service:
+        name: ntp
+        state: started
+        enabled: yes
+      tags:
+        - ntp
+
+  handlers:
+    - name: Restart NTP Service
+      service:
+        name: ntp
+        state: restarted
