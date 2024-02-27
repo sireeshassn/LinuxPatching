@@ -21,13 +21,13 @@ defaults
     timeout server  50000
 
 frontend workernode
-    default_backend backend_server
     bind 192.168.237.145:80
     stats uri /haproxy?stats
+    default_backend backend_server
    
 backend backend_server
     balance roundrobin
-    server workernode2 192.168.237.147:80 check
+    server workernode2 192.168.237.147:80 
 
 listen stats
    bind *:8080
