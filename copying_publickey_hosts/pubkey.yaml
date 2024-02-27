@@ -1,5 +1,5 @@
 - name: Copying the /root/.ssh/id_rsa.pub to new inventiory hosts
-  hosts: 192.168.237.147
+  hosts: all
   become: yes
 
   tasks: 
