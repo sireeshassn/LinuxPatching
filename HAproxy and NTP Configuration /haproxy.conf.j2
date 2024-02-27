@@ -25,8 +25,9 @@ frontend workernode
 backend backend_server
     balance roundrobin
     server workernode2 192.168.237.147:80 check
+
 listen stats
-   bind *:80
+   bind *:8080
    stats enable
    stats uri /
    stats refresh 5s
