@@ -24,7 +24,7 @@
       service:
         name: haproxy
         state: restarted
-        enabled: yes
+        
       
 - name: check apache is installed  on backend server
   hosts: backend_server
@@ -54,6 +54,6 @@
       service:
         name: apache2
         state: restarted
-        enabled: yes
+        
 
 
