@@ -1,8 +1,9 @@
 ---
 - name: Updating all packages on Ubuntu and Debian Linux Servers
   hosts: all
-  become: true
+  become: yes
   become_user: root
+
   tasks:
     - name: Update apt repo and package cache
       apt:
