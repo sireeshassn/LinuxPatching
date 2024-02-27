@@ -2,6 +2,7 @@
 - name: Playbook for to update/ patch the apt packages 
   hosts: all
   become: true
+  
   tasks:
     - name: Perform a dist-upgrade.
       ansible.builtin.apt:
