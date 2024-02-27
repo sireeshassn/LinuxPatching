@@ -1,0 +1,16 @@
+- name: Copying the /root/.ssh/id_rsa.pub to new inventiory hosts
+  hosts: 192.168.237.147
+  become: yes
+
+  tasks: 
+    - name: copy the publickey from source file to destinaltion path
+      copy:
+        src: id_rsa.pub
+        dest: /root/.ssh/authorized_keys
+      notify: Restart ssh
+
+  handlers: 
+    - name: Restart ssh
+      service:
+        name: ssh
+        state: restarted
