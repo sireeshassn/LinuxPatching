@@ -2,7 +2,6 @@
 - name: Updating all packages on Ubuntu and Debian Linux Servers
   hosts: all
   become: yes
-  become_user: root
 
   tasks:
     - name: Update apt repo and package cache
@@ -33,7 +32,7 @@
     - name: check if all the systems responding to ssh after the reboot 
       local_action:
         module: wait_for
-          host={{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}
+          host={{ (ansible_ssh_host|default(root))|default( all ) }}
           port=22
           search_regex=OpenSSH
           delay=15
