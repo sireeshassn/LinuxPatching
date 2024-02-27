@@ -18,6 +18,7 @@
         dest: /etc/haproxy/haproxy.cfg
       notify: Restart HAProxy
       become: yes
+
   handlers:
     - name: Restart HAProxy
       service:
