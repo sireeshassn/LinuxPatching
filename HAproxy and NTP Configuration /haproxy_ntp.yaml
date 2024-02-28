@@ -1,0 +1,47 @@
+- name: Install HAProxy on ubuntu servers
+  hosts: haproxy_inventory
+  become: yes
+  
+  tasks:
+    - name: Update apt cache repository 
+      apt:
+        update_cache: yes
+
+    - name: Install HAProxy on servers and start the service 
+      apt:
+        name: haproxy
+        state: present
+
+    - name: Copy HAProxy configuration file from haproxy.conf.j2 to /etc/haproxy/haproxy.cfg
+      copy:
+        src: haproxy.conf.j2
+        dest: /etc/haproxy/haproxy.cfg
+      notify: Restart HAProxy
+      become: yes
+
+  handlers:
+    - name: Restart HAProxy
+      service:
+        name: haproxy
+        state: restarted
+        
+- name: Install and configure the NTP server
+  hosts: ntp_server
+  become: yes
+
+  tasks: 
+    - name: Install NTP
+      apt: 
+        name: ntp
+        state: present 
+
+    - name: configure NTP on server 
+      lineinfile:
+        path: /etc/ntp.conf
+        line: 'server 192.168.237.147 iburst'
+    - name: Restart NTP 
+      service: 
+        name: ntp
+        state: restarted
+
+        
