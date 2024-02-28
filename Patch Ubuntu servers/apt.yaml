@@ -4,10 +4,10 @@
   become: yes
 
   tasks:
-    - name: Update package lists
+    - name: Update apt package lists
       apt:
         update_cache: yes
 
-    - name: Upgrade all packages
+    - name: Upgrade all packages in ubuntu server
       apt:
         upgrade: yes
