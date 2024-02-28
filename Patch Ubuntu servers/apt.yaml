@@ -1,0 +1,13 @@
+---
+- name: Update and Upgrade Ubuntu Servers
+  hosts: your_server_group
+  become: yes
+
+  tasks:
+    - name: Update package lists
+      apt:
+        update_cache: yes
+
+    - name: Upgrade all packages
+      apt:
+        upgrade: yes
